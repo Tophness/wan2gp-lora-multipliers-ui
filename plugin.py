@@ -6,9 +6,6 @@ import traceback
 class LoraMultipliersUIPlugin(WAN2GPPlugin):
     def __init__(self):
         super().__init__()
-        self.name = "Lora Multipliers UI"
-        self.version = "1.0.9"
-        self.description = "Dynamically set lora multipliers with a fast, JavaScript-powered UI."
         self.previous_loras_state = {}
         self.request_component("loras_multipliers")
         self.request_component("loras_choices")
@@ -429,4 +426,5 @@ class LoraMultipliersUIPlugin(WAN2GPPlugin):
         except Exception:
             traceback.print_exc()
         
+
         return {}
