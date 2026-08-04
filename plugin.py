@@ -146,13 +146,18 @@ class LoraMultipliersUIPlugin(WAN2GPPlugin):
                         container.className = 'lora-slider-group';
                         if (!isVisible) container.classList.add('hidden');
 
+                        const maxMultiplier = 5;
                         const initialValue = parseFloat(value);
+                        const safeInitialValue = Math.max(
+                            0,
+                            Math.min(maxMultiplier, isNaN(initialValue) ? 1.0 : initialValue)
+                        );
 
                         container.innerHTML = `
                             <label>Phase ${{phase}}</label>
                             <div class="lora-slider-input-wrapper">
-                                <input type="range" min="0" max="1" step="0.05" value="${{initialValue}}">
-                                <input type="number" min="0" max="1" step="0.05" value="${{initialValue.toFixed(2)}}">
+                                <input type="range" min="0" max="${{maxMultiplier}}" step="0.05" value="${{safeInitialValue}}">
+                                <input type="number" min="0" max="${{maxMultiplier}}" step="0.05" value="${{safeInitialValue.toFixed(2)}}">
                             </div>
                         `;
 
@@ -162,7 +167,7 @@ class LoraMultipliersUIPlugin(WAN2GPPlugin):
                         const syncAndUpdate = (source) => {{
                             let val = parseFloat(source.value);
                             if (isNaN(val)) val = 0;
-                            val = Math.max(0, Math.min(1, val));
+                            val = Math.max(0, Math.min(maxMultiplier, val));
 
                             if (source === rangeInput) {{
                                 numberInput.value = val.toFixed(2);
@@ -428,3 +433,4 @@ class LoraMultipliersUIPlugin(WAN2GPPlugin):
         
 
         return {}
+        
